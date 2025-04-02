@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net9.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="WPF-UI" Version="4.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Assets\calculate.svg" />
+      <None Remove="Assets\calculate.png" />
+      <Resource Include="Assets\calculate.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
+      <None Remove="View\**" />
+      <None Remove="Assets\plus.svg" />
+      <None Remove="Assets\plus.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Models\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="View\**" />
+      <Compile Remove="Views\MyCalculatorIconKeyBoard.xaml.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="View\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Page Remove="View\**" />
+      <Page Remove="Views\MyCalculatorIconKeyBoard.xaml" />
+    </ItemGroup>
+
+</Project>
