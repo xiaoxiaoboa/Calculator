@@ -4,7 +4,7 @@ public interface IDisplayViewModel {
     string Expression{ get; set; }
     string Result{ get; set; }
     string ResultCache{ get; set; }
-    string DisplayResult{ get; }
+    string DisplayResult{ get; set; }
 
     double FontSize{ get; set; }
     double MaxWidth{ get; set; }

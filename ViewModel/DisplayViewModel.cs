@@ -46,7 +46,7 @@ public class DisplayViewModel : ViewModelBase, IDisplayViewModel {
 
     public string DisplayResult{
         get => _displayResult;
-        private set {
+        set {
             _displayResult = FormatNumber(value);
 
             OnPropertyChanged();
@@ -103,10 +103,9 @@ public class DisplayViewModel : ViewModelBase, IDisplayViewModel {
             // 尝试解析整数部分并添加千位分隔符
             if (decimal.TryParse(integerPart, NumberStyles.Any, CultureInfo.CurrentCulture, out decimal integerValue)) {
                 string formattedInteger = integerValue.ToString("#,##0", CultureInfo.CurrentCulture);
-                
+
                 return $"{formattedInteger}.{decimalPart}";
             }
-
         }
 
         // 尝试解析数字

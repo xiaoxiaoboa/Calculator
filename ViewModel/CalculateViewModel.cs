@@ -13,8 +13,6 @@ public class CalculateViewModel : ViewModelBase {
 
     private readonly IDisplayViewModel _displayViewModel;
 
-    // 是否已经输入操作符
-    private bool _isHaveOperator;
 
     // 输入操作符
     private char _operator;
@@ -92,7 +90,7 @@ public class CalculateViewModel : ViewModelBase {
 
     private void ExecuteInputNumber(object? parameter = null) {
         if (IsNewInput) {
-            if (parameter?.ToString() == _displayViewModel.Result) return;
+            // if (parameter?.ToString() == _displayViewModel.Result) return;
             _displayViewModel.Result = parameter?.ToString() ?? "";
             IsNewInput = false;
         }
@@ -104,7 +102,6 @@ public class CalculateViewModel : ViewModelBase {
     private void ExecuteOperator(object? parameter = null) {
         var c = Convert.ToChar(parameter);
         Operator = c;
-        _isHaveOperator = true;
         IsNewInput = true;
         _displayViewModel.ResultCache = _displayViewModel.Result;
         _displayViewModel.Expression = _displayViewModel.Result + Constants.LittleBlankSpace + Operator;
@@ -115,12 +112,11 @@ public class CalculateViewModel : ViewModelBase {
         _displayViewModel.Result = Constants.InitializationString;
         _displayViewModel.Expression = string.Empty;
         Operator = Constants.DefaultChar;
-        _isHaveOperator = false;
         IsNewInput = true;
     }
 
     private void ExecuteBackSpace(object? parameter = null) {
-        if (_isHaveOperator) return;
+        // if (_isHaveOperator) return;
         if (_displayViewModel.Result.Length > 2 ||
             (_displayViewModel.Result[0] != Constants.Subtractive &&
              _displayViewModel.Result.Length == 2)) // 如果长度大于1，删除最后一个字符
@@ -185,6 +181,8 @@ public class CalculateViewModel : ViewModelBase {
     #region 计算事件
 
     public void ExecuteCalc(object? parameter = null) {
+        // 没有操作符不得运算
+        if (Operator == Constants.DefaultChar) return;
         IsNewInput = true;
         // 解析数字
         if (!decimal.TryParse(_displayViewModel.Result, out decimal resultNumber) ||
@@ -225,8 +223,9 @@ public class CalculateViewModel : ViewModelBase {
             decimal calcResult = operationInfo.Operation(cacheNumber, resultNumber);
             
             _displayViewModel.Result = calcResult.ToString(CultureInfo.CurrentCulture);
-            _displayViewModel.ResultCache = calcResult.ToString(CultureInfo.CurrentCulture);
             _displayViewModel.Expression = formattedExpression;
+            //清空操作符
+            Operator = Constants.DefaultChar;
         }
         catch (Exception ex) {
             _displayViewModel.Result = "Error";

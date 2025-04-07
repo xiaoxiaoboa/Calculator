@@ -15,6 +15,7 @@
     xmlns:viewModel="clr-namespace:Calculator.ViewModel"
     xmlns:views="clr-namespace:Calculator.Views"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Icon="Assets/favicon.ico"
     >
 
     <Window.DataContext>

@@ -1,44 +1,61 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <OutputType>WinExe</OutputType>
-        <TargetFramework>net9.0-windows</TargetFramework>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <UseWPF>true</UseWPF>
-    </PropertyGroup>
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <PackageIcon>calculate (1).png</PackageIcon>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+  </PropertyGroup>
 
-    <ItemGroup>
-      <PackageReference Include="WPF-UI" Version="4.0.2" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="WPF-UI" Version="4.0.2" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <None Remove="Assets\calculate.svg" />
-      <None Remove="Assets\calculate.png" />
-      <Resource Include="Assets\calculate.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Resource>
-      <None Remove="View\**" />
-      <None Remove="Assets\plus.svg" />
-      <None Remove="Assets\plus.png" />
-    </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\calculate.svg" />
+    <None Remove="Assets\calculate.png" />
+    <Resource Include="Assets\calculate.png" />
+    <None Remove="View\**" />
+    <None Remove="Assets\plus.svg" />
+    <None Remove="Assets\plus.png" />
+    <None Remove="Assets\favicon.ico" />
+    <Resource Include="Assets\favicon.ico" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Models\" />
-    </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <Compile Remove="View\**" />
-      <Compile Remove="Views\MyCalculatorIconKeyBoard.xaml.cs" />
-    </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="View\**" />
+    <Compile Remove="Views\MyCalculatorIconKeyBoard.xaml.cs" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <EmbeddedResource Remove="View\**" />
-    </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="View\**" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <Page Remove="View\**" />
-      <Page Remove="Views\MyCalculatorIconKeyBoard.xaml" />
-    </ItemGroup>
+  <ItemGroup>
+    <Page Remove="View\**" />
+    <Page Remove="Views\MyCalculatorIconKeyBoard.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="favicon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\calculate (1).png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
