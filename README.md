@@ -16,4 +16,4 @@ A WPF calculator that mimics the Win11 system calculator.
 - [ ] 等...
 
 # Preview
-![Calculator](https://github.com/xiaoxiaoboa/picx-images-hosting/raw/master/20250402/{04C153ED-9334-45EB-A1D7-9B39283DA035}.7i0k61sv0k.webp)
+![Calculator](https://cdn.jsdelivr.net/gh/xiaoxiaoboa/picx-images-hosting@master/QQ截图20250407142309.58hjtojufi.webp)
