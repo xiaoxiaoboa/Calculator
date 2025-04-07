@@ -1,11 +1,9 @@
-﻿<UserControl x:Class="Calculator.Views.MyCalculatorKeyBoard"
-             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-
-             HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+﻿<utils:MyBaseControl x:Class="Calculator.Views.MyCalculatorKeyBoard"
+                     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:utils="clr-namespace:Calculator.Utils"
+                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2">
 
@@ -13,13 +11,19 @@
             Appearance="{Binding ButtonAppearance, RelativeSource={RelativeSource AncestorType=UserControl}}"
             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
             Command="{Binding ButtonCommand,RelativeSource={RelativeSource AncestorType= UserControl}}"
-            CommandParameter="{Binding ButtonCommandParameter,RelativeSource={RelativeSource AncestorType=UserControl}}">
+            CommandParameter="{Binding ButtonCommandParameter,RelativeSource={RelativeSource AncestorType=UserControl}}"
+            >
+
             <ui:TextBlock
                 FontSize="{Binding ButtonFontSize, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                Text="{Binding ButtonText, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                Text="{Binding ButtonContent, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                <ui:TextBlock.LayoutTransform>
+                    <ScaleTransform x:Name="TextScale" ScaleX="1" ScaleY="1" />
+                </ui:TextBlock.LayoutTransform>
             </ui:TextBlock>
+            
         </ui:Button>
     </Grid>
 
-    <!-- {Binding BackGroundColor, RelativeSource={RelativeSource AncestorType=UserControl}} -->
-</UserControl>
+
+</utils:MyBaseControl>

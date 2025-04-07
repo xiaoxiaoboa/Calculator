@@ -1,36 +1,78 @@
-﻿using System.ComponentModel;
+﻿using System.Globalization;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using Calculator.Interfaces;
 using Calculator.MVVM;
+using Calculator.Utils;
 
 namespace Calculator.ViewModel;
 
-public class DisplayViewModel : ViewModelBase {
-    private string _expression = "0";
+public class DisplayViewModel : ViewModelBase, IDisplayViewModel {
+    #region 字段
+
+    // 表达式显示
+    private string _expression = string.Empty;
+
+    // 输入栏显示
+    private string _result = Constants.InitializationString;
+
+    // 输入栏显示的缓存
+    public string ResultCache{ get; set; } = Constants.InitializationString;
+
+    // 显示最终计算结果
+    private string _displayResult = Constants.InitializationString;
+
+
+    // 控制字体
     private double _fontSize = 40; // 字体初始大小
     private double _maxWidth = 320; // 窗口初始大小，动态更新
-    private const double MinFontSize = 28; // 最小字体大小
-    private const int MaxDigitCount = 16; // 最大数字位数
 
-    public ICommand HandleInput{ get; }
-    public ICommand HandleClear{ get; }
+    [Obsolete("已弃用", true)] private readonly double MinFontSize = 24; // 最小字体大小
 
+    public int MaxDigitCount{ get; } = 16; // 最大数字位数
+
+    #endregion
+
+    #region 属性
+
+    public string Result{
+        get => _result;
+        set {
+            _result = value;
+            DisplayResult = value;
+        }
+    }
+
+    public string DisplayResult{
+        get => _displayResult;
+        private set {
+            _displayResult = FormatNumber(value);
+
+            OnPropertyChanged();
+
+            // 该方法已经弃用
+            // AdjustFontSize(); 
+        }
+    }
 
     public string Expression{
         get => _expression;
         set {
-            _expression = _expression == "0" ? value : _expression + value;
+            _expression = value;
             OnPropertyChanged();
-            AdjustFontSize();
+
+            // 该方法已经弃用
+            // AdjustFontSize();
         }
     }
 
+    [Obsolete("已弃用。", true)]
     public double FontSize{
         get => _fontSize;
         set {
             _fontSize = value;
-            OnPropertyChanged(nameof(FontSize));
+            OnPropertyChanged();
         }
     }
 
@@ -38,39 +80,52 @@ public class DisplayViewModel : ViewModelBase {
         get => _maxWidth;
         set {
             _maxWidth = value;
-            OnPropertyChanged(nameof(MaxWidth));
-            AdjustFontSize(); // 宽度变化时调整字体
+            OnPropertyChanged();
+
+            // 该方法已经弃用
+            // AdjustFontSize(); // 宽度变化时调整字体
         }
-    }
-
-
-    #region 按钮事件
-
-    public DisplayViewModel() {
-        HandleInput = new RelayCommand(ExecuteInputNumber);
-        HandleClear = new RelayCommand(ExecuteClear);
-    }
-
-    private void ExecuteInputNumber(object? parameter) {
-        if (Expression.Length < MaxDigitCount) {
-            Expression = parameter?.ToString() ?? "";
-        }
-    }
-
-    private void ExecuteClear(object? parameter) {
-        // 清空后恢复初始值
-        // Expression = "0";
-        _expression = "0";
-        OnPropertyChanged(nameof(Expression));
     }
 
     #endregion
 
+    #region 方法
 
+    // 格式化数字为带千位分隔符的字符串
+    private string FormatNumber(string number) {
+        // 检查是否包含小数点
+        if (number.Contains(Constants.Dot)) {
+            // 分割整数和小数部分
+            string[] parts = number.Split(Constants.Dot);
+            string integerPart = parts[0];
+            string decimalPart = parts.Length > 1 ? parts[1] : "";
+
+            // 尝试解析整数部分并添加千位分隔符
+            if (decimal.TryParse(integerPart, NumberStyles.Any, CultureInfo.CurrentCulture, out decimal integerValue)) {
+                string formattedInteger = integerValue.ToString("#,##0", CultureInfo.CurrentCulture);
+                
+                return $"{formattedInteger}.{decimalPart}";
+            }
+
+        }
+
+        // 尝试解析数字
+        if (decimal.TryParse(number, NumberStyles.Any, CultureInfo.CurrentCulture, out decimal value)) {
+            // 如果成功解析，应用千位分隔符和小数格式
+
+            return value.ToString("#,##0.##", CultureInfo.CurrentCulture);
+        }
+
+        // 如果解析失败（比如输入过程中），返回原始输入
+        return number;
+    }
+
+    [Obsolete("此方法已弃用。", true)]
+    // 调整字体大小
     private void AdjustFontSize() {
         var formattedText = new FormattedText(
-            Expression,
-            System.Globalization.CultureInfo.CurrentCulture,
+            Result,
+            CultureInfo.CurrentCulture,
             FlowDirection.LeftToRight,
             new Typeface("Segoe UI"),
             FontSize,
@@ -89,7 +144,10 @@ public class DisplayViewModel : ViewModelBase {
             FontSize = Math.Min(40, MaxWidth / formattedText.Width * FontSize);
         }
 
-        Console.WriteLine($"FontSize:{FontSize}");
+        // Console.WriteLine($"scale:{MaxWidth / formattedText.Width}");
+
         CommandManager.InvalidateRequerySuggested();
     }
+
+    #endregion
 }

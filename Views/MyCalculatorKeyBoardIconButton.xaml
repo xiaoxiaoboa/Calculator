@@ -1,0 +1,25 @@
+﻿<utils:MyBaseControl
+    x:Class="Calculator.Views.MyCalculatorKeyBoardIconButton"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:utils="clr-namespace:Calculator.Utils">
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2">
+
+        <ui:Button
+            Appearance="{Binding ButtonAppearance, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+            Command="{Binding ButtonCommand,RelativeSource={RelativeSource AncestorType= UserControl}}">
+
+            <ui:SymbolIcon
+                FontSize="20"
+                Symbol="{Binding ButtonContent, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                <ui:SymbolIcon.LayoutTransform>
+                    <ScaleTransform x:Name="IconScale" ScaleX="1" ScaleY="1" />
+                </ui:SymbolIcon.LayoutTransform>
+            </ui:SymbolIcon>
+
+        </ui:Button>
+    </Grid>
+</utils:MyBaseControl>
